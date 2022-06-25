@@ -56,6 +56,8 @@ time_found=`grep -o [0-9][0-9]:[0-9][0-9]  $gpx_file`
 # get a times stamp, convert it to UTC then find closeset time in .gpx file
 # need UTC time because .gpx file time in UTC format
 # apply only if gps position is unknown
+
+
 cd /home/shef/Desktop/pics_fuji/scripts/input_gps/
 for picture in *;
 do
