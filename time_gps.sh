@@ -27,8 +27,20 @@ clock_timestamp(){
 # add time to all times, sort and see what adjacent times are
 get_rank(){	
 	appended_time="$time_found $time_string"
-	around_time=`echo sort $appended_time | grep -E -o ".{0,6}$time_string.{0,6}" `
-	echo $around_time | cut -d: -f2
+	around_time=`echo sort $appended_time | grep -E -o ".{0,6}$time_string.{0,6}"`
+	echo $around_time
+}
+
+
+# get location from time when time provided, time has to exist in time_and_line variable
+# location time is 2 limes fore the time line
+# going to get both longitude and latitude
+# get line num by looking for first match and extract only number from it
+get_location(){	
+	line_with_time=`echo $line_and_time | grep -o -m 1 "[0-9]\+:${time_string}" | head -1 | cut -d ':' -f1`
+	echo $line_with_time
+	echo $time_string
+
 }
 
 
@@ -73,10 +85,21 @@ do
 		minutes=`echo $time | cut -c 4-5`
 		convert_time 
 		time_string="${hour}:${minutes}"
-		get_rank
-		adjacent_times=$(get_rank)
+
+		# check if time already in all times found
+		if [[ "$time_found" == *"$time_string"* ]]
+		then
+			
+			echo time exists
+			get_location
+		else
+			echo need to find time
+		fi
+
+	#	get_rank
+		# adjacent_times=$(get_rank)
 		echo $time_string
-		echo $adjacent_times
+		# echo $adjacent_times
 		echo ---------------------	
 	fi
 
