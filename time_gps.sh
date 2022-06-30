@@ -38,7 +38,10 @@ get_rank(){
 # get line num by looking for first match and extract only number from it
 get_location(){	
 	line_with_time=`echo $line_and_time | grep -o -m 1 "[0-9]\+:${time_string}" | head -1 | cut -d ':' -f1`
+	location_line=$(echo $(($line_with_time - 2)))
 	echo $line_with_time
+	echo $location_line
+	awk "NR==$location_line" $file_path
 	echo $time_string
 
 }
@@ -52,6 +55,8 @@ get_location(){
 cd /home/shef/Downloads/
 gpx_file=`ls -t *.gpx | head -1`
 file_text=`cat $gpx_file`
+file_path="/home/shef/Downloads/${gpx_file}"
+echo $file_path
 line_and_time=`grep -on [0-9][0-9]:[0-9][0-9]  $gpx_file`
 time_found=`grep -o [0-9][0-9]:[0-9][0-9]  $gpx_file`
 
