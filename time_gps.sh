@@ -39,9 +39,10 @@ get_rank(){
 get_location(){	
 	line_with_time=`echo $line_and_time | grep -o -m 1 "[0-9]\+:${time_string}" | head -1 | cut -d ':' -f1`
 	location_line=$(echo $(($line_with_time - 2)))
-	echo $line_with_time
-	echo $location_line
-	awk "NR==$location_line" $file_path
+	gps_text=`awk "NR==$location_line" $file_path`
+	long=`echo $gps_text | cut -d' ' -f2 | grep -o "[0-9][0-9][.][0-9]\+"`
+	lat=`echo $gps_text | cut -d' ' -f3 | grep -o "[0-9][0-9][.][0-9]\+"`
+	echo $long ----------- $lat
 	echo $time_string
 
 }
