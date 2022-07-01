@@ -25,10 +25,12 @@ clock_timestamp(){
 # get ranking to what pic time is ranked in all times
 # get time before and after the time that want to compare to
 # add time to all times, sort and see what adjacent times are
-get_rank(){	
-	appended_time="$time_found $time_string"
-	around_time=`echo sort $appended_time | grep -E -o ".{0,6}$time_string.{0,6}"`
-	echo $around_time
+get_rank(){
+		
+	appended_time="$time_found $time_string"	
+	# around_time=`echo $appended_time | sed 's/\s\+/\n/g' | sort -n | grep -E -o ".{0,6}$time_string.{0,6}"`
+	time_line=`echo $appended_time | sed 's/\s\+/\n/g' | sort -V`
+	echo $time_line
 }
 
 
@@ -99,13 +101,17 @@ do
 			echo time exists
 			get_location
 		else
-			echo need to find time
+			echo need to find time			
+			echo $time_string
+			echo ----------
+			get_rank
+		        #adjacent_times=$(get_rank)
+			#echo $adjacent_times
+
+
 		fi
 
-	#	get_rank
-		# adjacent_times=$(get_rank)
-		echo $time_string
-		# echo $adjacent_times
+	#echo $time_string
 		echo ---------------------	
 	fi
 
